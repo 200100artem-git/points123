@@ -1,0 +1,29 @@
+.texthead {
+    text-align: left;
+    color: #febd03; /* A nicer yellow/gold matching your SVG icon */
+}
+
+.header {
+    float: right;
+    background-color: lightgreen;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.number {
+    text-align: center; /* Fixed invalid 'float: center' */
+    background-color: lightblue;
+    color: blue;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 400px;
+    border-radius: 8px;
+}
+
+.buy {
+    float: right;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
