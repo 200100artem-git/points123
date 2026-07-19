@@ -1,61 +1,115 @@
-// Initialize starting points for everyone
-let points = {
-    Artem: 0,
-    Daniil: 0,
-    Daria: 0
-};
-
-// Wait for the HTML document to fully load before running the script
 document.addEventListener("DOMContentLoaded", () => {
-    
-    // Select the necessary HTML elements based on your layout
+    // Check local storage for existing points
+    const savedPoints = localStorage.getItem('pointsDataRu');
+    let points = savedPoints ? JSON.parse(savedPoints) : {
+        "Артем": 0,
+        "Даниил": 0,
+        "Дарья": 0
+    };
+
     const scoreDisplays = document.querySelectorAll('.number h3');
-    const addButtons = document.querySelectorAll('.number button');
-    const buyButton = document.querySelector('.buy button');
+    const addButtons = document.querySelectorAll('.add-btn');
+    const buyButton = document.getElementById('buy-book-btn');
+    const names = ["Артем", "Даниил", "Дарья"];
 
-    // Names array mapped to the order they appear in the HTML
-    const names = ["Artem", "Daniil", "Daria"];
+    // Custom Modal HTML Elements
+    const alertModal = document.getElementById('alert-modal');
+    const alertMessage = document.getElementById('alert-message');
+    const alertCloseBtn = document.getElementById('alert-close-btn');
+    
+    const choiceModal = document.getElementById('choice-modal');
+    const choiceButtonsContainer = document.getElementById('choice-buttons');
+    const choiceCancelBtn = document.getElementById('choice-cancel-btn');
 
-    // Function to update the <h3> tags on the screen
+    // Function to update the score text on the screen
     function updateDisplay() {
-        scoreDisplays[0].innerText = points.Artem + " pts";
-        scoreDisplays[1].innerText = points.Daniil + " pts";
-        scoreDisplays[2].innerText = points.Daria + " pts";
+        scoreDisplays[0].innerText = points["Артем"] + " баллов";
+        scoreDisplays[1].innerText = points["Даниил"] + " баллов";
+        scoreDisplays[2].innerText = points["Дарья"] + " баллов";
     }
 
-    // Initialize the screen with 0 points
+    // Function to save points to browser memory
+    function savePoints() {
+        localStorage.setItem('pointsDataRu', JSON.stringify(points));
+    }
+
+    // Helper function to show our custom alert pop-up
+    function showCustomAlert(message) {
+        alertMessage.innerText = message;
+        alertModal.classList.remove('hidden');
+    }
+
+    // Event listeners to close the pop-ups
+    alertCloseBtn.addEventListener('click', () => {
+        alertModal.classList.add('hidden');
+    });
+
+    choiceCancelBtn.addEventListener('click', () => {
+        choiceModal.classList.add('hidden');
+    });
+
+    // Initialize screen on load
     updateDisplay();
 
     // Attach click events to the "Add point" buttons
     addButtons.forEach((button, index) => {
         button.addEventListener('click', () => {
             const person = names[index];
-            points[person] += 1; // Add 1 point
+            points[person] += 1;
             updateDisplay();
+            savePoints();
         });
     });
 
     // Attach click event to the "Buy book" button
     if (buyButton) {
         buyButton.addEventListener('click', () => {
-            // Find if anyone has enough points (200) to buy the book
-            let eligibleBuyer = null;
+            let eligibleBuyers = [];
             
+            // Find everyone who has 200 or more points
             for (let person in points) {
                 if (points[person] >= 200) {
-                    eligibleBuyer = person;
-                    break;
+                    eligibleBuyers.push(person);
                 }
             }
 
-            // Logic for buying the book
-            if (eligibleBuyer) {
-                points[eligibleBuyer] -= 200;
-                alert(`Success! ${eligibleBuyer} bought the book for 200 points!`);
-                updateDisplay();
-            } else {
-                alert("Not enough points! Someone needs at least 200 points to buy the book.");
+            // Scenario 1: Nobody has enough points
+            if (eligibleBuyers.length === 0) {
+                showCustomAlert("Недостаточно баллов! Кому-то нужно как минимум 200 баллов, чтобы купить книгу.");
+                return;
+            }
+
+            // Scenario 2: Exactly one person has enough points
+            if (eligibleBuyers.length === 1) {
+                processPurchase(eligibleBuyers[0]);
+            } 
+            // Scenario 3: Multiple kids have enough points
+            else {
+                // Clear out any old buttons inside the modal
+                choiceButtonsContainer.innerHTML = ''; 
+                
+                // Create a mobile-friendly button for each eligible kid
+                eligibleBuyers.forEach(buyer => {
+                    const btn = document.createElement('button');
+                    btn.innerText = buyer;
+                    btn.addEventListener('click', () => {
+                        choiceModal.classList.add('hidden'); // Hide the modal
+                        processPurchase(buyer); // Deduct points
+                    });
+                    choiceButtonsContainer.appendChild(btn);
+                });
+                
+                // Show the choice selection modal
+                choiceModal.classList.remove('hidden');
             }
         });
+    }
+
+    // Handles the actual point deduction and success message
+    function processPurchase(buyerName) {
+        points[buyerName] -= 200;
+        showCustomAlert(`Успех! ${buyerName} покупает книгу за 200 баллов!`);
+        updateDisplay();
+        savePoints();
     }
 });

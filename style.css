@@ -1,29 +1,120 @@
-.texthead {
-    text-align: left;
-    color: #febd03; /* A nicer yellow/gold matching your SVG icon */
+/* Reset default browser margins */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-.header {
-    float: right;
-    background-color: lightgreen;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.number {
-    text-align: center; /* Fixed invalid 'float: center' */
-    background-color: lightblue;
-    color: blue;
+body {
+    font-family: sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
-    margin: 20px auto;
+}
+
+/* Centered Title Style */
+.texthead {
+    color: #d49c00; /* Yellow/gold styling */
+    margin-top: 10px;
+    margin-bottom: 25px;
+    font-size: 2.2rem;
+    text-align: center;
+}
+
+/* Centered User Score Panel */
+.number {
+    background-color: lightblue;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
     max-width: 400px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.number h2 {
+    margin-top: 15px;
+    color: #333;
+}
+
+.number h3 {
+    color: blue;
+    margin: 10px 0;
+    font-size: 1.5rem;
+}
+
+/* Mobile-Friendly Buttons */
+button {
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    border: none;
     border-radius: 8px;
+    cursor: pointer;
+    margin: 5px 0;
+    width: 90%; 
+    max-width: 250px;
+    background-color: #007bff;
+    color: white;
+}
+
+button:active {
+    background-color: #0056b3;
 }
 
 .buy {
-    float: right;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+#buy-book-btn {
     background-color: black;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
+    width: 100%;
+    padding: 18px;
+    font-size: 1.2rem;
+}
+
+/* --- Custom Pop-Up (Modal) Styles --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dark transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-overlay.hidden {
+    display: none; /* Hides the modal when not needed */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    width: 90%;
+    max-width: 350px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+#choice-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#choice-cancel-btn {
+    background-color: #dc3545; /* Red cancel button */
+    margin-top: 15px;
 }

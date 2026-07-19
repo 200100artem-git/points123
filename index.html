@@ -1,30 +1,53 @@
 <!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Point scanner</title>
-        <link rel="icon" type="image/icon" href="icon.svg">
-        <link rel="stylesheet" href="style.css">
-        <h1 class='texthead'>Points🪙</h1>
-        <div class='header'>
-            <button onclick="window.location.href='russian.html';">RUS🇷🇺</button>
-            <img src='icon.svg' alt='🪙'/>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система Баллов</title>
+    <link class="tab-icon" rel="icon" type="image/icon" href="icon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1 class="texthead">Баллы</h1>
+
+    <div class="number">
+        <h2>Артем</h2>
+        <h3 id="score-artem">0 баллов</h3>
+        <button class="add-btn">Добавить балл</button>
+        
+        <h2>Даниил</h2>
+        <h3 id="score-daniil">0 баллов</h3>
+        <button class="add-btn">Добавить балл</button>
+        
+        <h2>Дарья</h2>
+        <h3 id="score-daria">0 баллов</h3>
+        <button class="add-btn">Добавить балл</button>
+    </div>
+
+    <div class="buy">
+        <button id="buy-book-btn">Купить книгу (200)</button>
+    </div>
+
+    <!-- Custom Modal for Alerts (Replaces alert()) -->
+    <div id="alert-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p id="alert-message"></p>
+            <button id="alert-close-btn">ОК</button>
         </div>
-    </head>
-    <body>
-        <div class='number'>
-            <h2>Artem</h2>
-            <h3></h3>
-            <button>Add point</button>
-            <h2>Daniil</h2>
-            <h3></h3>
-            <button>Add point</button>
-            <h2>Daria</h2>
-            <h3></h3>
-            <button>Add point</button>
+    </div>
+
+    <!-- Custom Modal for Choosing Buyer (Replaces prompt()) -->
+    <div id="choice-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p>Несколько человек накопили баллы! Кто покупает?</p>
+            <div id="choice-buttons">
+                <!-- Buttons will be injected here by JavaScript -->
+            </div>
+            <button id="choice-cancel-btn">Отмена</button>
         </div>
-        <div class='buy'>
-            <button>Buy book (200)</button>
-        </div>
-        <script src="script.js"></script>
-    </body>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
